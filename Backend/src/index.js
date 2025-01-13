@@ -18,7 +18,7 @@ const __dirname = path.resolve();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
-app.use(cors({origin: "http://localhost:5173",credentials: true}));
+app.use(cors({origin: "https://eventify-frontend-4qc4.onrender.com",credentials: true}));
 
 app.use("/api/user", UserRoute);
 app.use("/api/events", EventRoute);
