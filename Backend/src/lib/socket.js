@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://eventify-frontend-4qc4.onrender.com"],
+       origin: process.env.NODE_ENV === "production" ? "https://eventify-frontend-4qc4.onrender.com" : "http://localhost:5173",
     }
 });
 
