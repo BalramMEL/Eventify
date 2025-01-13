@@ -3,6 +3,7 @@ import { Calendar, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useEventStore } from '../store/useEventStore';
 import Footer from '../components/Footer';
+import PosterSlider from '../components/PosterSlider';
 
 function Home() {
   const { getAllEvents, events } = useEventStore();
@@ -13,8 +14,16 @@ function Home() {
 
   const eventList = Array.isArray(events) ? events : [];
 
+const posterImages = [
+  'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Concert event
+  'https://images.unsplash.com/photo-1497493292307-31c376b6e479?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Community gathering
+  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Business meeting
+];
+
+
   return (
     <>
+      <PosterSlider images={posterImages} />
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">

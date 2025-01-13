@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { toast } from "react-toastify";
 import {io} from 'socket.io-client'
 
-const BASE_URL = import.meta.env.MODE === "development"? "http://localhost:3000":"/";
+const BASE_URL = import.meta.env.MODE === "development"? "http://localhost:3000":"https://eventify-zkl4.onrender.com";
 
 export const useAuthStore = create((set,get) => ({
     authUser: null,
