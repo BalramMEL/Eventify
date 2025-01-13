@@ -73,7 +73,7 @@ function Navbar() {
           )}
         </div>
         <Link to="/" className="btn btn-ghost normal-case text-xl">
-          {/* <Calendar className="mr-2" /> */}
+          <Calendar className="mr-2" />
           EventiFy
         </Link>
       </div>
