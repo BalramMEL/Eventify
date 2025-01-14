@@ -18,8 +18,15 @@ const __dirname = path.resolve();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
-app.use(cors({origin: process.env.NODE_ENV === "production" ? "https://eventify-frontend-4qc4.onrender.com" : "http://localhost:5173",methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],}));
+app.use(cors({
+    origin: process.env.NODE_ENV === "production"
+        ? "https://eventify-frontend-4qc4.onrender.com"
+        : "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies and credentials
+}));
+app.options("*", cors()); // Allow preflight requests for all routes
 
 app.use("/api/user", UserRoute);
 app.use("/api/events", EventRoute);
