@@ -20,7 +20,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cookieParser());
 app.use(cors({
     origin: process.env.NODE_ENV === "production"
-        ? "https://eventify-frontend-4qc4.onrender.com"
+        ? "https://eventify-frontend-livid.vercel.app"
         : "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
