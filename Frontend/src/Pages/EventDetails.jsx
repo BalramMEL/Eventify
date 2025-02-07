@@ -7,7 +7,7 @@ import { Calendar, Loader, MapPin, User, Users } from 'lucide-react';
 const EventDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getEventById, joinEvent, leaveEvent, isLoading,deleteEvent} = useEventStore();
+  const { getEventById, joinEvent, leaveEvent, isLoading, deleteEvent } = useEventStore();
   const { authUser, socket } = useAuthStore();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
@@ -54,7 +54,7 @@ const EventDetails = () => {
       console.error('Error joining event:', error);
     }
   };
-  
+
   const handleLeaveEvent = async () => {
     try {
       await leaveEvent(id);
@@ -64,7 +64,7 @@ const EventDetails = () => {
       console.error('Error leaving event:', error);
     }
   };
-  
+
   const isAttending = event?.attendees?.some(
     attendee => attendee._id === authUser?._id
   );
@@ -83,7 +83,7 @@ const EventDetails = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader className="w-10 h-10 animate-spin text-gray-500" />
+        <Loader className="w-10 h-10 animate-spin text-primary" />
       </div>
     );
   }
@@ -105,79 +105,85 @@ const EventDetails = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Event Image */}
       {event.imageUrl && (
-        <img
-          src={event.imageUrl}
-          alt={event.name}
-          className="w-full h-64 object-cover rounded-t-lg shadow-lg"
-        />
+        <div className="relative h-96 w-full rounded-lg overflow-hidden shadow-lg mb-8">
+          <img
+            src={event.imageUrl}
+            alt={event.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+        </div>
       )}
 
-      <div className="bg-white rounded-b-lg shadow-md p-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">{event.name}</h1>
+      {/* Event Details */}
+      <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">{event.name}</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div className="space-y-4">
-            <div className="flex items-center text-gray-600">
-              <Calendar className="h-5 w-5 mr-2" />
-              {new Date(event.date).toLocaleString()}
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Event Metadata */}
+          <div className="space-y-6">
+            <div className="flex items-center text-gray-700">
+              <Calendar className="h-6 w-6 mr-3 text-primary" />
+              <span>{new Date(event.date).toLocaleString()}</span>
             </div>
-            <div className="flex items-center text-gray-600">
-              <MapPin className="h-5 w-5 mr-2" />
-              {event.location}
+            <div className="flex items-center text-gray-700">
+              <MapPin className="h-6 w-6 mr-3 text-primary" />
+              <span>{event.location}</span>
             </div>
-            <div className="flex items-center text-gray-600">
-              <Users className="h-5 w-5 mr-2" />
-              {event.attendees.length} / {event.capacity} attendees
+            <div className="flex items-center text-gray-700">
+              <Users className="h-6 w-6 mr-3 text-primary" />
+              <span>{event.attendees.length} / {event.capacity} attendees</span>
             </div>
-            <div className="flex items-center text-gray-600">
-              <User className="h-5 w-5 mr-2" />
-              Hosted by {event.creator.name}
+            <div className="flex items-center text-gray-700">
+              <User className="h-6 w-6 mr-3 text-primary" />
+              <span>Hosted by {event.creator.name}</span>
             </div>
           </div>
 
+          {/* Event Description */}
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900">Description</h2>
-            <p className="text-gray-600">{event.description}</p>
+            <h2 className="text-2xl font-semibold text-gray-900">Description</h2>
+            <p className="text-gray-600 leading-relaxed">{event.description}</p>
           </div>
         </div>
 
-        {authUser && authUser._id !== event.creator._id && (
-          <div className="mt-6">
-            {!isAttending ? (
-              <button
-                onClick={handleJoinEvent}
-                disabled={isEventFull}
-                className={`btn btn-primary${
-                  isEventFull
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'btn btn-primary'
-                }`}
-              >
-                {isEventFull ? 'Event Full' : 'Join Event'}
-              </button>
-            ) : (
-              <button
-                onClick={handleLeaveEvent}
-                className="btn btn-accent"
-              >
-                Leave Event
-              </button>
-            )}
-          </div>
-        )}
-        <div className='flex justify-end gap-3'>
-          {authUser && authUser._id === event.creator._id && (
-            <>
-            <button>
-              <Link to={`/updateevent/${event._id}`} className="btn btn-warning">Update Event</Link>
+        {/* Action Buttons */}
+        <div className="mt-8 flex flex-col md:flex-row gap-4">
+          {authUser && authUser._id !== event.creator._id && (
+            <button
+              onClick={isAttending ? handleLeaveEvent : handleJoinEvent}
+              disabled={!isAttending && isEventFull}
+              className={`w-full md:w-auto px-6 py-3 rounded-lg font-semibold transition-all ${
+                isAttending
+                  ? 'bg-red-500 hover:bg-red-600 text-white'
+                  : isEventFull
+                  ? 'bg-gray-400 cursor-not-allowed text-white'
+                  : 'bg-primary hover:bg-primary/90 text-white'
+              }`}
+            >
+              {isAttending ? 'Leave Event' : isEventFull ? 'Event Full' : 'Join Event'}
             </button>
-            <button className="btn btn-error" onClick={handleDeleteEvent}>
-              Delete Event
-            </button>
-            </>
+          )}
 
+          {authUser && authUser._id === event.creator._id && (
+            <div className="flex gap-4 w-full md:w-auto">
+              <Link
+                to={`/updateevent/${event._id}`}
+                className="w-full md:w-auto px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-semibold text-center transition-all"
+              >
+                Update Event
+              </Link>
+              <button
+                onClick={handleDeleteEvent}
+                className="w-full md:w-auto px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition-all"
+              >
+                Delete Event
+              </button>
+            </div>
           )}
         </div>
       </div>

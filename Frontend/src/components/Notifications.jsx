@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Notifications () {
   return (
     <div>
-        <ToastContainer position='top-center'/>
+        <ToastContainer position='top-right'/>
     </div>
   )
 }

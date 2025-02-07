@@ -14,23 +14,16 @@ function Home() {
 
   const eventList = Array.isArray(events) ? events : [];
 
-const posterImages = [
-  'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Concert event
-  'https://images.unsplash.com/photo-1497493292307-31c376b6e479?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Community gathering
-  'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080', // Business meeting
-];
-
-
   return (
     <>
-      <PosterSlider images={posterImages} />
+      <PosterSlider />
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Discover Amazing Events
+          Discover Amazing Events Around You
         </h1>
         <p className="text-xl text-gray-600">
-          Join exciting events happening around you
+          Find or create events that matter to you
         </p>
       </div>
 
@@ -57,15 +50,15 @@ const posterImages = [
               </p>
               <div className="space-y-2">
                 <div className="flex items-center text-gray-500">
-                  <Calendar className="h-5 w-5 mr-2" />
-                  {new Date(event.date).toLocaleDateString()}
+                  <Calendar className="h-5 w-5 mr-2 text-blue-500" />
+                  {new Date(event.date).toLocaleDateString()} 
                 </div>
                 <div className="flex items-center text-gray-500">
-                  <MapPin className="h-5 w-5 mr-2" />
+                  <MapPin className="h-5 w-5 mr-2 text-red-500" />
                   {event.location}
                 </div>
                 <div className="flex items-center text-gray-500">
-                  <Users className="h-5 w-5 mr-2" />
+                  <Users className="h-5 w-5 mr-2 text-green-500" />
                   {event.attendees.length} / {event.capacity} attendees
                 </div>
               </div>
